@@ -6,6 +6,11 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://127.0.0.1:8000';
 
 const getAuthToken = () => localStorage.getItem("token");
 
+const getUserRole = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user?.role;
+};
+
 function ProjectSection({ projects, refresh }) {
   const emptyForm = {
     name: "",
@@ -21,6 +26,7 @@ function ProjectSection({ projects, refresh }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Member Assignment States
   const [users, setUsers] = useState([]);
@@ -46,8 +52,14 @@ function ProjectSection({ projects, refresh }) {
   };
 
   useEffect(() => {
-    loadUsers();
-  }, []);
+  loadUsers();
+
+  const role = getUserRole();
+
+  if (role === "admin") {
+    setIsAdmin(true);
+  }
+}, []);
 
   const openAssignModal = (project) => {
     setAssigningProject(project);
@@ -418,37 +430,48 @@ function ProjectSection({ projects, refresh }) {
                 )}
 
                 <div className="project-actions">
-                  <button
-                    onClick={() => openAssignModal(project)}
-                    className="member-manage-btn"
-                  >
-                    <i className="fas fa-users-cog"></i> Members
-                  </button>
 
-                  <button
-                    onClick={() => editProject(project)}
-                    className="btn-edit"
-                    disabled={deleteLoading === (project.id || project._id)}
-                  >
-                    <i className="fas fa-pen"></i> Edit
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      deleteProject(project.id || project._id)
-                    }
-                    className="btn-delete"
-                    disabled={deleteLoading === (project.id || project._id)}
-                  >
-                    {deleteLoading === (project.id || project._id) ? (
-                      <span className="spinner-small"></span>
-                    ) : (
+                    {isAdmin && (
                       <>
-                        <i className="fas fa-trash"></i> Delete
+                        <button
+                          onClick={() => openAssignModal(project)}
+                          className="member-manage-btn"
+                        >
+                          <i className="fas fa-users-cog"></i> Members
+                        </button>
+
+
+                        <button
+                          onClick={() => editProject(project)}
+                          className="btn-edit"
+                          disabled={deleteLoading === (project.id || project._id)}
+                        >
+                          <i className="fas fa-pen"></i> Edit
+                        </button>
+
+
+                        <button
+                          onClick={() =>
+                            deleteProject(project.id || project._id)
+                          }
+                          className="btn-delete"
+                          disabled={deleteLoading === (project.id || project._id)}
+                        >
+
+                          {deleteLoading === (project.id || project._id) ? (
+                            <span className="spinner-small"></span>
+                          ) : (
+                            <>
+                              <i className="fas fa-trash"></i> Delete
+                            </>
+                          )}
+
+                        </button>
                       </>
                     )}
-                  </button>
+
                 </div>
+                
               </div>
             ))
           )}

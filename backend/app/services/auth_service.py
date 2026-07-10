@@ -8,6 +8,12 @@ db = get_database()
 
 def register_user(user):
 
+    if db.users.find_one({"email": user.email}):
+        raise HTTPException(
+        status_code=400,
+        detail="This email is already used"
+    )
+
     existing_user = db.users.find_one({"email": user.email})
 
     if existing_user:
