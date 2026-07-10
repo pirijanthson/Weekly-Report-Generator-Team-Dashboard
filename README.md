@@ -156,3 +156,25 @@ Follow these steps to run the project locally on your machine.
 - Access the platform via the frontend URL.
 - **Employees** can register a new account, log in, and begin submitting their weekly reports.
 - **Administrators** can log into the Admin Dashboard to view platform-wide compliance, manage projects, and analyze team productivity charts.
+
+## 🔗 Live URLs (Local Development)
+
+*   **Employee :**``https://weekly-report-generator-team-dashbo-seven.vercel.app/login/* ``
+*   **Admin  :**``https://weekly-report-generator-team-dashbo-seven.vercel.app/admin-login* ``
+*   **Backend API Base URL :**``https://weekly-report-generator-team-dashboard-production.up.railway.app/*``
+
+---
+
+## 🔑 Demo Credentials
+
+You can use the following credentials to test the system:
+
+**Standard User:**
+*   **Email:** `user@gmail.com`
+*   **Password:** `User@1123`
+*(Note: You can also register a new user from the Signup page)*
+
+**Administrator:**
+*   **Email:** `admin@gmail.com`
+*   **Password:** `Admin@123`
+*(Note: Must log in through the `/admin/login` portal)*
